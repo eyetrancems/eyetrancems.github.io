@@ -55,7 +55,7 @@
         //document.getElementById("AboutUsButton").remove();
         //AboutUsButton.remove();
 
-        // ES6 and HTML5 =>
+        // ES6 and HTLM5 => Template Strings => "Super Strings"
 
     }
 
