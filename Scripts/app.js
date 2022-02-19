@@ -3,10 +3,63 @@
 "use strict";
 (function(){
 
+    /**
+     * This function user AJAX open a connectino the url and return data to the callback function
+     * @param {string} method
+     * @param {sting} url
+     * @param {Function} callback
+     */
+    function AjaxRequest(method, url, callback)
+    {
+        // step 1 - create a new XHR object
+        let XHR = new XMLHttpRequest();
+
+        // step 2 - creat an event
+        XHR.addEventListener("readystatechange", ()=>
+        {
+            if (XHR.readyState === 4 && XHR.status === 200)
+            {
+
+                callback(XHR.responseText);
+
+                // if($("a").text() == document.title)
+                // {
+                //     console.log(document.title);
+                // };
+
+                //console.log(XHR.responseText); // payload
+            }
+        });
+
+        // step 3 - open a request
+        XHR.open(method, url);
+
+        // step 4
+        XHR.send();
+    }
+
+    /**
+     * This function load the NavBar from the header file and injects the header and underlying html into the page
+     * 
+     * @param {*} data 
+     */
+    function LoadHeader(data)
+    {
+        $("header").html(data);
+
+        $(`li>a:contains(${document.title})`).addClass("active");
+
+        CheckLogin();
+    }
+
     function DisplayHome()
     {
         console.log("Home Page");
+
         
+
+        
+
         //let AboutUsButton = document.getElementById("AboutUsButton");
 
 
@@ -18,12 +71,12 @@
 
         // 2nd fattest - javascript was - returns a array (collection) of elements and loops through all of them
         // document.querySelectorAll("#AboutUsButton").forEach("click", function(element){
-            
+
         //     // attach a click even to each element in the list
         //     element.addEventListener("click", function(){
         //         location.href = "about.html";
         //     });
-            
+
         // });
 
 
@@ -31,13 +84,13 @@
         document.querySelector("#AboutUsButton").addEventListener("click", () =>{
             location.href = "about.html";
         });
-        
+
         // 3rd leanest - javascript was but only returns  one element and attaches a click event to it
         // document.getElementById("AboutUsButton").addEventListener("click", function(){
         //     location.href = "about.html";
         // });
-        
-        
+
+
 
 
         // AboutUsButton.addEventListener("click", function()
@@ -55,7 +108,7 @@
         let Article = document.createElement("article");
         let ArticleParagraph = `<p id="ArticleParagraph" class="mt-3">This is the Article Paragraph"</p>`
 
-        
+
         // Step 3 - configure new element
 
         // MainParagraph.setAttribute("id", "MainParagraph");
@@ -64,7 +117,7 @@
         // let FirstString = "This is";
         // let SecondString = `${FirstString} the Main Paragraph`;
 
-        // MainParagraph.textContent = "This is the Main Paragraph!";    
+        // MainParagraph.textContent = "This is the Main Paragraph!";
 
         Article.setAttribute("class", "container");
 
@@ -81,7 +134,7 @@
         //     <h1 class = "display-1">Hello, World!</h1>
         //     <p class="mt-5">and ... what do you think of this!
         //     </p>
-        //     </div>     
+        //     </div>
         // `;
 
         // example of insert before
@@ -93,7 +146,39 @@
 
         // ES6 and HTML5 =>
 
+        // // step 1 - create a new XHR object
+        // let XHR = new XMLHttpRequest();
+
+        // // step 2 - creat an event
+        // XHR.addEventListener("readystatechange", ()=>
+        // {
+        //     if (XHR.readyState === 4 && XHR.status === 200)
+        //     {
+        //         $("header").html(XHR.responseText);
+        //         $(`li>a:contains(${document.title})`).addClass("active");
+
+
+
+        //         // if($("a").text() == document.title)
+        //         // {
+        //         //     console.log(document.title);
+        //         // };
+
+
+
+        //         //console.log(XHR.responseText); // payload
+        //     }
+        // });
+
+        // // step 3 - open a request
+        // XHR.open("GET", "header.html");
+
+        // // step 4
+        // XHR.send();
+
         
+       
+
 
     }
 
@@ -196,15 +281,15 @@
         });
 
     }
-    
-    
+
+
     /**
      * This method replaces three validations for fullName, contactNumber and emailAddress
-     * 
-     * @param {string} input_field_ID 
-     * @param {RegExp} regular_expression 
-     * @param {string} error_message 
-     */    
+     *
+     * @param {string} input_field_ID
+     * @param {RegExp} regular_expression
+     * @param {string} error_message
+     */
     function ValidateField(input_field_ID, regular_expression, error_message)
     {
         let messageArea = $("#messageArea").hide();
@@ -252,11 +337,11 @@
 
         sendButton.addEventListener("click", function()
         {
-            
+
             if(subscribeCheckbox.checked)
             {
                 AddContact (fullName.value, contactNumber.value, emailAddress.value);
-                
+
                 // let contact = new core.Contact(fullName.value, contactNumber.value, emailAddress.value);
                 // if (contact.serialize())
                 // {
@@ -326,8 +411,8 @@
             {
                 location.href = "edit.html#add";
             });
-            
-            $("button.delete").on("click", function() 
+
+            $("button.delete").on("click", function()
             {
                 if(confirm("Are you sure?"))
                 {
@@ -337,7 +422,7 @@
                 location.href = "contact-list.html";
             });
 
-            $("button.edit").on("click", function() 
+            $("button.edit").on("click", function()
             {
                 location.href = "edit.html#" + $(this).val();
             });
@@ -358,7 +443,7 @@
             case "add":
                 {
                     $("main>h1").text("Add Contact");
-                    
+
                     $("#editButton").html(`<i class="fas fa-plus-circle fa-lg"></i> Add`);
 
                     $("#editButton").on("click", (event) => {
@@ -374,7 +459,7 @@
                     $("#cancelButton").on("click", () =>{
                         location.href = "contact-list.html";
                     });
-                    
+
 
                 }
                 break;
@@ -393,7 +478,7 @@
                     // when editButton is pressed - update the contact
 
                     $("#editButton").on("click", (event) => {
-                    
+
                         event.preventDefault();
 
                         // get any changes from the form
@@ -408,7 +493,7 @@
                         //return tto the contact list
 
                         location.href = "contact-list.html";
-                    
+
                     });
 
                     $("#cancelButton").on("click", () =>{
@@ -423,7 +508,90 @@
     function DisplayLoginPage()
     {
         console.log("Login Page");
+
+        let messageArea = $("#messageArea");
+        messageArea.hide();
+
+        $("#loginButton").on("click", function()
+        {
+            let success = false;
+
+            let newUser = new core.User();
+
+            $.get("./Data/users.json", function(data)
+            {
+                for (const user of data.users)
+                {
+                    if (username.value == user.Username && password.value == user.Password)
+                    {
+                        newUser.fromJSON(user);
+                        success = true;
+                        break;
+                    }
+                }
+                if (success) {
+                  sessionStorage.setItem("user", newUser.serialize());
+
+                  messageArea.removeAttr("class").hide();
+
+                  location.href = "contact-list.html";
+                } else {
+                  $("#username").trigger("focus").trigger("select");
+                  messageArea
+                    .addClass("alert alerg-danger")
+                    .text("Error: Invalid Login Credentials")
+                    .show();
+                }
+            });
+
+            
+        });
+
+        $("#cancelButton").on("click", function()
+        {
+            //document.form[0].reset();
+
+            sessionStorage.clear();
+
+            location.href = "index.html";
+        });
     }
+
+    function CheckLogin()
+    {
+        if(sessionStorage.getItem("user"))
+        {
+            // swap out the login link for logout
+            $("#login").html(
+                `<a id="logout" class="nav-link" href="#"><i class="fas fa-sign-in-alt"></i> Logout</a>`
+            );
+
+            $("#logout").on("click", function()
+            {
+                sessionStorage.clear();
+
+                location.href = "login.html";
+            });
+
+            // Show Contact List button when there is a user session
+            document.getElementById("clbutton").style.visibility = "visible";
+        }
+        else
+        {
+            // Hide Contact List Button
+            document.getElementById("clbutton").style.visibility = "hidden";
+        }
+    }
+
+
+
+    // function AuthGuard()
+    // {
+    //     if(!sessionStorage.getItem("user"))
+    //     {
+    //         location.href = "login.html";
+    //     }
+    // }
 
     function DisplayRegisterPage()
     {
@@ -434,6 +602,10 @@
     function Start()
     {
         console.log("App Started!!")
+
+        AjaxRequest("GET", "header.html", LoadHeader);
+
+        
 
         switch(document.title)
         {
@@ -464,11 +636,12 @@
             case "Register":
                 DisplayRegisterPage();
                 break;
-        }                    
+        }
+        
     }
-    
 
-    
+
+
     window.addEventListener("load", Start);
 
 })();
